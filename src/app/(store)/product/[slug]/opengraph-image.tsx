@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { ImageResponse } from 'next/og'
 import colors from 'tailwindcss/colors'
 
@@ -46,7 +45,7 @@ export default async function OgImage({ params }: { params: { slug: string }}) {
                     flexDirection: 'column',
                 }}
             >
-                <Image src={productImageUrl} alt={product.title} style={{ width: '100%' }} />
+                <img src={productImageUrl} alt={product.title} style={{ width: '100%' }} />
             </div>
         ),
         {
