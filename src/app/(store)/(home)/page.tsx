@@ -62,7 +62,8 @@ export default async function Home() {
                         src={product.image}
                         alt={product.title}
                         width={920}
-                        height={920} quality={100}
+                        height={920}
+                        quality={100}
                         className="transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute bottom-10 right-10 flex h-12 max-w-[280px] items-center gap-2 rounded-full border-2 border-zinc-500 bg-black/60 p-1 pl-5">
