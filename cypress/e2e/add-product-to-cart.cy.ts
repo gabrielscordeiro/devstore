@@ -1,6 +1,9 @@
 describe('Add product to cart', () => {
+    beforeEach(() => {
+        cy.visit('/')
+    })
+
     it('should be able to navigate to product page and add it to the cart', () => {
-        cy.visit('http://localhost:3000')
 
         //get the first tag <a> that HREF starts with /product
         cy.get('a[href^="/product"]').first().click()
@@ -24,8 +27,6 @@ describe('Add product to cart', () => {
 
         cy.contains('Cart (1)').should('exist')
     })
-
-
 
     it('should be able to search for a product and add it to the cart', () => {
         cy.visit('http://localhost:3000')
