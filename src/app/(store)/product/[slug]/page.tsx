@@ -11,6 +11,7 @@ interface ProductProps {
     }
 }
 
+
 async function getProduct(slug: string): Promise<Product> {
     const response =  await api(`/products/${slug}`, {
         next: {
@@ -104,7 +105,7 @@ export default async function ProductPage({ params }: ProductProps) {
                     </div>
                 </div>
 
-                <AddToCartButton  productId={product.id} />
+                <AddToCartButton productId={product.id} />
             </div>
         </div>
     )

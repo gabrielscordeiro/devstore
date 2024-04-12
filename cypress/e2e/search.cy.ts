@@ -1,7 +1,7 @@
 describe('Search products', () => {
 
     it('should be able to search for products', () => {
-        cy.searchByQuery('moletom')
+        cy.searchByQuery('sweatshirt')
 
         cy.location('pathname').should('include', '/search')
         cy.location('search').should('include', 'q=moletom')
