@@ -26,7 +26,7 @@ export function Header() {
                 <div className="h-4 w-px bg-zinc-700" />
 
                 <Link href="/" className="flex items-center gap-2 hover:underline">
-                    <span className="text-sm">Account</span>
+                    <span className="text-sm">Minha conta</span>
 
                     <Image src="https://github.com/gabrielscordeiro.png" alt="" className="size-6 rounded-full" width={24} height={24} />
                 </Link>

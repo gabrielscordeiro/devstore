@@ -12,7 +12,7 @@ interface SearchProps {
 }
 
 async function searchProducts(query: string): Promise<Product[]> {
-    const response =  await api(`/products/search?q=${query}`, {
+    const response =  await api( {
         next: {
             revalidate: 60 * 60 // 1 hour
         }
@@ -20,7 +20,12 @@ async function searchProducts(query: string): Promise<Product[]> {
 
     const products = await response.json()
 
-    return products
+    const result = products.filter((product: Product) => {
+        return product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+    })
+
+
+    return result
 }
 
 export default async function Search({ searchParams }: SearchProps) {
@@ -36,7 +41,7 @@ export default async function Search({ searchParams }: SearchProps) {
     return (
         <div className="flex flex-col gap-4">
             <p className="text-sm">
-                Results to: <span className="font-semibold">{query}</span>
+                Resultados para: <span className="font-semibold">{query}</span>
             </p>
 
             <div className="grid grid-cols-3 gap-6">

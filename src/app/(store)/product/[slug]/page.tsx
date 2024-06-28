@@ -1,4 +1,3 @@
-import { Metadata } from 'next'
 import Image from 'next/image'
 
 import { AddToCartButton } from '@/components/add-to-cart-button'
@@ -13,7 +12,7 @@ interface ProductProps {
 
 
 async function getProduct(slug: string): Promise<Product> {
-    const response =  await api(`/products/${slug}`, {
+    const response =  await api( {
         next: {
             revalidate: 60 * 60 // 1 hour
         }
@@ -21,92 +20,102 @@ async function getProduct(slug: string): Promise<Product> {
 
     const products = await response.json()
 
-    return products
+    const product = products.filter((product: Product) => product.slug === slug)
+
+
+    return product[0]
 }
 
-export async function generateMetadata({ params }: ProductProps): Promise<Metadata> {
-    const product = await getProduct(params.slug)
+// export async function generateMetadata({ params }: ProductProps): Promise<Metadata> {
+//     const product = await getProduct(params.slug)
+//
+//     return {
+//         title: product.title
+//     }
+// }
 
-    return {
-        title: product.title
-    }
-}
-
-export async function generateStaticParams() {
-    const response = await api('/products/featured')
-    const products: Product[] = await response.json()
-
-    return products.map((product) => {
-        return { slug: product.slug }
-    })
-    
-    // return [
-    //     { slug: 'moletom-ai-side' }
-    // ]
-}
+// export async function generateStaticParams() {
+//     const response = await api('/products/featured')
+//     const products: Product[] = await response.json()
+//
+//     return products.map((product) => {
+//         return { slug: product.slug }
+//     })
+//
+//     // return [
+//     //     { slug: 'moletom-ai-side' }
+//     // ]
+// }
 
 export default async function ProductPage({ params }: ProductProps) {
     const product = await getProduct(params.slug)
 
-
     return (
-        <div className="relative grid max-h-[860px] grid-cols-3">
-            <div className="col-span-2 overflow-hidden">
-                <Image
-                    src={product.image}
-                    alt={product.title}
-                    width={1000}
-                    height={1000}
-                    quality={100}
-                />
-            </div>
+        <>
+            {product ? (
 
-            <div className="flex flex-col justify-center px-12">
-                <h1 className="leading-tightd text-3xl font-bold">
-                    {product.title}
-                </h1>
-                <p className="mt-2 leading-relaxed text-zinc-400">
-                    {product.description}
-                </p>
+                <div className="relative grid max-h-[860px] grid-cols-3">
+                    <div className="col-span-2 overflow-hidden">
+                        <Image
+                            src={product.image}
+                            alt={product.title}
+                            width={1000}
+                            height={1000}
+                            quality={100}
+                        />
+                    </div>
 
-                <div className="mt-8 flex items-center gap-3">
-                    <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
-                        {product.price.toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        })}
-                    </span>
-                    <span className="text-sm text-zinc-400">
-                       12x of {(product.price / 12 ).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                        })}
-                    </span>
-                </div>
+                    <div className="flex flex-col justify-center px-12">
+                        <h1 className="leading-tightd text-3xl font-bold">
+                            {product.title}
+                        </h1>
+                        <p className="mt-2 leading-relaxed text-zinc-400">
+                            {product.description}
+                        </p>
 
-                <div className="mt-8 space-y-4">
-                    <span className="block font-semibold">Sizes:</span>
+                        <div className="mt-8 flex items-center gap-3">
+                            <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
+                                R$  {product.price.toLocaleString('pt-br', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
+                                })}
+                            </span>
+                            <span className="text-sm text-zinc-400">
+                                12x de {(product.price / 12 ).toLocaleString('pt-br', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                })}
+                            </span>
+                        </div>
 
-                    <div className="flex gap-2">
-                        <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
+                        <div className="mt-8 space-y-4">
+                            <span className="block font-semibold">Tamanhos:</span>
+
+                            <div className="flex gap-2">
+                                <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
                             P
-                        </button>
-                        <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
+                                </button>
+                                <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
                             M
-                        </button>
-                        <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
+                                </button>
+                                <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
                             G
-                        </button>
-                        <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
+                                </button>
+                                <button type="button" className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold">
                             GG
-                        </button>
+                                </button>
+                            </div>
+                        </div>
+
+                        <AddToCartButton productId={product.id} />
                     </div>
                 </div>
+            ) : (
+                <p>Produto não encontrado</p>
+            )}
+        </>
 
-                <AddToCartButton productId={product.id} />
-            </div>
-        </div>
     )
 }

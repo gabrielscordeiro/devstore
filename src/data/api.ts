@@ -1,10 +1,9 @@
 import { env } from '@/env'
 
-export function api(path: string, init?: RequestInit) {
+export function api(init?: RequestInit) {
     const baseUrl = env.NEXT_PUBLIC_API_BASE_URL
-    const apiPrefix = '/api'
 
-    const url = new URL(apiPrefix.concat(path), baseUrl)
+    const url = new URL(baseUrl)
 
     return fetch(url, init)
 }

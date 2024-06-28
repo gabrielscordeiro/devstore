@@ -10,7 +10,7 @@ export function  CartWidget() {
     return (
         <div className="flex items-center gap-2">
             <ShoppingBag className="size-4" />
-            <span className="text-sm">Cart ({ items.length })</span>
+            <span className="text-sm">Carrinho ({ items.length })</span>
         </div>
     )
 }
